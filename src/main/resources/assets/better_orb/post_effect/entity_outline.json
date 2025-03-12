@@ -1,0 +1,175 @@
+{
+    "targets": {
+        "swap": {}
+    },
+    "passes": [
+        {
+            "program": "better_orb:post/entity_outline",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "better_orb:entity_outline"
+                }
+            ],
+            "output": "swap"
+        },
+        {
+            "program": "better_orb:post/entity_outline_box_blur",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "swap",
+                    "bilinear": true
+                }
+            ],
+            "output": "better_orb:entity_outline",
+            "uniforms": [
+                {
+                    "name": "BlurDir",
+                    "values": [ 2.0, 0.0 ]
+                }
+            ]
+        },
+        {
+            "program": "better_orb:post/entity_outline_box_blur",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "better_orb:entity_outline",
+                    "bilinear": true
+                }
+            ],
+            "output": "swap",
+            "uniforms": [
+                {
+                    "name": "BlurDir",
+                    "values": [ 0.0, 2.0 ]
+                }
+            ]
+        },
+        {
+            "program": "better_orb:post/box_blur",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "swap",
+                    "bilinear": true
+                }
+            ],
+            "output": "better_orb:entity_outline",
+            "uniforms": [
+                {
+                    "name": "BlurDir",
+                    "values": [ 1.5, 0.0 ]
+                },
+                {
+                    "name": "RadiusMultiplier",
+                    "values": [ 3    ]
+                }
+            ]
+        },
+        {
+            "program": "better_orb:post/box_blur",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "better_orb:entity_outline",
+                    "bilinear": true
+                }
+            ],
+            "output": "swap",
+            "uniforms": [
+                {
+                    "name": "BlurDir",
+                    "values": [ 0.0, 1.5 ]
+                },
+                {
+                    "name": "RadiusMultiplier",
+                    "values": [ 3 ]
+                }
+
+            ]
+        },
+
+        {
+            "program": "better_orb:post/blit",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "swap"
+                }
+            ],
+            "output": "better_orb:entity_outline",
+            "uniforms": [
+                {
+                    "name": "ColorModulate",
+                    "values": [  1.25, 1.25, 1.25,1 ]
+                }
+            ]
+        },
+
+
+        {
+            "program": "better_orb:post/blit",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "better_orb:entity_outline"
+                }
+            ],
+            "output": "swap",
+            "uniforms": [
+                {
+                    "name": "ColorModulate",
+                    "values": [ 1.25, 1.25, 1.25,1 ]
+                }
+            ]
+        },
+        {
+            "program": "better_orb:post/color_convolve",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "swap",
+                    "bilinear": true
+                }
+            ],
+            "output": "better_orb:entity_outline",
+            "uniforms": [
+                {
+                    "name": "Saturation",
+                    "values": [  12 ]
+                }
+            ]
+        },
+
+
+        {
+            "program": "better_orb:post/color_convolve",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "better_orb:entity_outline",
+                    "bilinear": true
+                }
+            ],
+            "output": "swap",
+            "uniforms": [
+                {
+                    "name": "Saturation",
+                    "values": [  12 ]
+                }
+            ]
+        },
+        {
+            "program": "better_orb:post/blit",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "swap"
+                }
+            ],
+            "output": "better_orb:entity_outline"
+        }
+    ]
+}

@@ -22,3 +22,4 @@ void main() {
     blurred += texture(InSampler, texCoord + sampleStep * actualRadius) / 2.0;
     fragColor = blurred / (actualRadius + 0.5);
 }
+
